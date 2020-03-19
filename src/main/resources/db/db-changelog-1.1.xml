@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet id="add-fk-between-subscribers-and-accounts" author="db@user">
+        <addForeignKeyConstraint constraintName="fk_part_account"
+                                 baseTableName="subscribers" baseColumnNames="account_id" referencedTableName="accounts"
+                                 referencedColumnNames="account_id" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+
+
+    <changeSet id="add-fk-between-tariffs_favours-and-favours" author="db@user">
+        <addForeignKeyConstraint constraintName="fk_part_favour"
+                                 baseTableName="tariffs_favours" baseColumnNames="favour_id" referencedTableName="favours"
+                                 referencedColumnNames="favour_id" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+
+    <changeSet id="add-fk-between-tariffs_favours-and-tariffs" author="db@user">
+        <addForeignKeyConstraint constraintName="fk_part_tariff"
+                                 baseTableName="tariffs_favours" baseColumnNames="tariff_id" referencedTableName="tariffs"
+                                 referencedColumnNames="tariff_id" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+
+    <changeSet id="add-fk-between-tariffs_favours-and-subscribers" author="db@user">
+        <addForeignKeyConstraint constraintName="fk_part_subscriber"
+                                 baseTableName="tariffs_favours" baseColumnNames="subscriber_id" referencedTableName="subscribers"
+                                 referencedColumnNames="subscriber_id" onDelete="CASCADE" onUpdate="CASCADE" />
+    </changeSet>
+
+    <changeSet id="tag-1.1" author="db@user">
+        <tagDatabase tag="1.1" />
+    </changeSet>
+
+</databaseChangeLog>

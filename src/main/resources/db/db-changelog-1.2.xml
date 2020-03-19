@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="loadData1" author="db@user">
+        <loadData catalogName="providerinternet"
+                  encoding="UTF-8"
+                  file="/data/adminA.csv"
+                  quotchar="&quot;"
+                  schemaName="public"
+                  separator=","
+                  tableName="accounts">
+            <column header="account_id" name="account_id" type="numeric" />
+            <column header="account" name="account" type="numeric" />
+            <column header="balance" name="balance" type="numeric" />
+
+        </loadData>
+    </changeSet>
+    <changeSet id="loadData2" author="db@user">
+        <loadData catalogName="providerinternet"
+                  encoding="UTF-8"
+                  file="/data/adminS.csv"
+                  quotchar="&quot;"
+                  schemaName="public"
+                  separator=","
+                  tableName="subscribers">
+            <column header="subscriber_id" name="subscriber_id" type="numeric" />
+            <column header="subscriber_name" name="subscriber_name" type="string" />
+            <column header="subscriber_blocked" name="subscriber_blocked" type="boolean" />
+            <column header="account_id" name="account_id" type="numeric" />
+
+        </loadData>
+    </changeSet>
+    <changeSet id="tag-1.2" author="db@user">
+        <tagDatabase tag="1.2" />
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_favours" author="db@user">
+        <createTable tableName="favours">
+            <column name="favour_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="favour_name" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_tariffs" author="db@user">
+        <createTable tableName="tariffs">
+            <column name="tariff_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tariff_name" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="tariff_price" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="path_file" type="varchar(200)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_subscribers" author="db@user">
+        <createTable tableName="subscribers">
+            <column name="subscriber_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="subscriber_name" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="subscriber_blocked" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="account_id" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="tariff_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_tariffs_favours" author="db@user">
+        <createTable tableName="tariffs_favours">
+            <column name="tf_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="subscriber_id" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="tariff_id" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="favour_id" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="create_accounts" author="db@user">
+        <createTable tableName="accounts">
+            <column name="account_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="account" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="balance" type="double">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="tag-1.0" author="db@user">
+        <tagDatabase tag="1.0" />
+    </changeSet>
+
+</databaseChangeLog>
