@@ -3,24 +3,22 @@ package com.epam.rd.july2019.spring_internet_provider.controller;
 import com.epam.rd.july2019.spring_internet_provider.aspects.NameTime;
 import com.epam.rd.july2019.spring_internet_provider.models.Tariff;
 import com.epam.rd.july2019.spring_internet_provider.service.ServiceInterface;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -139,103 +137,30 @@ public class TariffController {
 
     }
 
-//    @GetMapping(value = "/downloadFile")
-//    @ResponseBody
-//    public ModelAndView uploadFileHandler(@RequestParam String idTariff) throws IOException {
-////                             @RequestParam("file") MultipartFile file) {
-//        Tariff element = tariffService.findElementId(Integer.parseInt(idTariff));
-//        if(element == null) {
-//            return new ModelAndView("redirect:/tariffs");
-//        }
-//        String fileNameRead = element.getPathFile();
-////        Path fileRead = Paths.get(fileNameRead);
-////        File file = new File("src/test/resources/input.txt");
-//        FileInputStream input = new FileInputStream(fileNameRead);
-//        MultipartFile file = new MockMultipartFile(fileNameRead, input);
-//
-//////        Path path = Paths.get("/path/to/the/file.txt");
-//////        String name = "file.txt";
-//////        String originalFileName = "file.txt";
-////        String contentType = "text/plain";
-////        Long content = null;
-////        try {
-////            content = Files.size(fileRead);
-////        } catch (final IOException e) {
-////        }
-////        MultipartFile file = new MockMultipartFile(fileNameRead,
-////                fileNameRead, contentType, content);
-//
-////        MultipartFile file = fileRead;
-//
-//        if (!file.isEmpty()) {
-////            try {
-//                byte[] bytes = file.getBytes();
-//
-//                // Creating the directory to store file
-////                String rootPath = System.getProperty("catalina.home");
-////                File dir = new File(rootPath + File.separator + "tmpFiles");
-////                if (!dir.exists())
-////                    dir.mkdirs();
-////
-////                // Create the file on server
-////                File serverFile = new File(dir.getAbsolutePath()
-////                        + File.separator + name);
-//                BufferedOutputStream stream = new BufferedOutputStream(
-//                        new FileOutputStream(fileNameRead));
-//                stream.write(bytes);
-//                stream.close();
-//
-////                logger.info("Server File Location="
-////                        + serverFile.getAbsolutePath());
-//
-//                return new ModelAndView("redirect:/tariffs");
-////            } catch (Exception e) {
-////                return new ModelAndView("redirect:/tariffs");
-////            }
-//        } else {
-//            return new ModelAndView("redirect:/tariffs");
-////            return "You failed to upload " + name
-////                    + " because the file was empty.";
-//        }
-//    }
-
     @NameTime
     private List<Tariff> getSortList(List<Tariff> tariffList, String sortList){
 
-        Comparator<Tariff> maxPrice = (o1, o2) -> {
-            return (Double.compare(o2.getPrice(), o1.getPrice()));
-        };
-        Comparator<Tariff> minPrice = (o1, o2) -> {
-            return (Double.compare(o1.getPrice(), o2.getPrice()));
-        };
-        Comparator<Tariff> nameSortA = (o1, o2) -> {
-            return (o1.getNameTariff().compareTo(o2.getNameTariff()));
-        };
-        Comparator<Tariff> nameSortZ = (o1, o2) -> {
-            return (o2.getNameTariff().compareTo(o1.getNameTariff()));
-        };
-
         if ("maxPrice".equals(sortList)) {
             tariffList = tariffList.stream()
-                    .sorted(maxPrice)
+                    .sorted(Comparator.comparingDouble(Tariff::getPrice).reversed())
                     .collect(Collectors.toList());
         }
 
         if ("minPrice".equals(sortList)) {
             tariffList = tariffList.stream()
-                    .sorted(minPrice)
+                    .sorted(Comparator.comparingDouble(Tariff::getPrice))
                     .collect(Collectors.toList());
         }
 
         if ("sortAz".equals(sortList)) {
             tariffList = tariffList.stream()
-                    .sorted(nameSortA)
+                    .sorted(Comparator.comparing(Tariff::getNameTariff))
                     .collect(Collectors.toList());
         }
 
         if ("sortZa".equals(sortList)) {
             tariffList = tariffList.stream()
-                    .sorted(nameSortZ)
+                    .sorted(Comparator.comparing(Tariff::getNameTariff).reversed())
                     .collect(Collectors.toList());
         }
 
